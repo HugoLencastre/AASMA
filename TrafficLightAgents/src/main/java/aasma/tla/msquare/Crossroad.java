@@ -1,5 +1,7 @@
 package aasma.tla.msquare;
 
+import java.awt.*;
+
 public class Crossroad extends Road {
 
     private Coords coords;
@@ -7,6 +9,11 @@ public class Crossroad extends Road {
     @Override
     public String getStringValue() {
         return "C";
+    }
+
+    @Override
+    public Color getColorValue() {
+        return Color.yellow;
     }
 
     public void setCoords(Coords coords) {

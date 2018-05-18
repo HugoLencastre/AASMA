@@ -16,7 +16,14 @@ public abstract class Map {
     private HashMap<Integer, ArrayList<Spawn>> spawns = new HashMap<>();
     private HashMap<Integer, ArrayList<Destiny>> destinies = new HashMap<>();
     private Random r = new Random();
-    private final double spawnProb = 0.5;
+    public int width;
+    public int height;
+
+    private double spawnProb;
+
+    public ArrayList<ArrayList<MapSquare>> getMap() {
+        return map;
+    }
 
     public void changeMapSquare(MapSquare ms, int x, int y) {
         ArrayList<MapSquare> line = map.get(y);
@@ -36,7 +43,7 @@ public abstract class Map {
         return getMapSquare(c.getX(), c.getY());
     }
 
-    public void doMapStep(boolean verbose) {
+    public void doMapStep(boolean verbose, int stepNr) {
         if (traffic == null) {
             System.out.println("No Dataset");
             return;
@@ -56,13 +63,14 @@ public abstract class Map {
             int ri = r.nextInt(destiniesInDir.size());
             destinyToVehicle = destiniesInDir.get(ri);
         }
+        for (TrafficLight tl : tls){
+            tl.doStep(this, stepNr);
+        }
         for (int y = 0; y < map.size(); y++) {
             ArrayList<MapSquare> line = map.get(y);
             for (int x = 0; x < line.size(); x++) {
                 MapSquare ms = line.get(x);
-                if (ms instanceof TrafficLight) {
-                    ((TrafficLight) ms).doStep(this, new Coords(x, y));
-                } else if (ms instanceof Vehicle) {
+                if (ms instanceof Vehicle) {
                     ((Vehicle) ms).doStep(this, new Coords(x, y));
                 } else if (ms == spawnToSpawn) {
                     ((Spawn) ms).doStep(this, new Coords(x, y), destinyToVehicle.getCoords());
@@ -90,12 +98,14 @@ public abstract class Map {
         destinies.put(2, new ArrayList<>());
         destinies.put(3, new ArrayList<>());
         ArrayList<Crossroad> crossroads = new ArrayList<>();
-        for (int y = 0; y < map.size(); y++) {
+        int x = 0;
+        int y;
+        for (y = 0; y < map.size(); y++) {
             ArrayList<MapSquare> line = map.get(y);
-            for (int x = 0; x < line.size(); x++) {
+            for (x = 0; x < line.size(); x++) {
                 MapSquare ms = line.get(x);
                 if (ms instanceof TrafficLight) {
-                    tls.add((TrafficLight) ms);
+                    tls.add(((TrafficLight) ms).setCoords(new Coords(x,y)));
                 } else if (ms instanceof Vehicle) {
                     System.out.println("Map should start with no vehicle");
                 } else if (ms instanceof Spawn) {
@@ -112,6 +122,14 @@ public abstract class Map {
                 }
             }
         }
+        width = x;
+        height = y;
+    }
+
+    public Map setTrafficDataset(Dataset d) {
+        this.traffic = d;
+        spawnProb = traffic.getProbToSpawnVehicle();
+        return this;
     }
 
     public void printMap() {
@@ -121,14 +139,7 @@ public abstract class Map {
             }
             System.out.println();
         }
-    }
-
-    public void setTrafficDataset(Dataset d) {
-        this.traffic = d;
-    }
-
-    public Dataset getTraffic() {
-        return traffic;
+        System.out.println();
     }
 
     public Coords getCoordsAhead(int x, int y, int direction) {
@@ -142,11 +153,26 @@ public abstract class Map {
             case 3:
                 return new Coords(x + 1, y);
         }
-        System.out.println("This is not supposed to return null, something is wrong");
+        System.out.println("getCoordsAhead: This is not supposed to return null, something is wrong");
         return null;
     }
 
     public Coords getCoordsAhead(Coords c, int direction) {
         return getCoordsAhead(c.getX(), c.getY(), direction);
+    }
+
+    public TrafficLight getMyTrafficLight(Coords c, int direction) {
+        switch (direction) {
+            case 0:
+                return (TrafficLight) this.getMapSquare(c.getX()+1, c.getY());
+            case 1:
+                return (TrafficLight) this.getMapSquare(c.getX()-1, c.getY());
+            case 2:
+                return (TrafficLight) this.getMapSquare(c.getX(), c.getY()-1);
+            case 3:
+                return (TrafficLight) this.getMapSquare(c.getX(), c.getY()+1);
+        }
+        System.out.println("getMyTrafficLight: This is not supposed to return null, something is wrong");
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package aasma.tla.msquare;
 
 import aasma.tla.maps.Map;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,6 +19,11 @@ public class Vehicle extends MapSquare{
     @Override
     public String getStringValue() {
         return "V";
+    }
+
+    @Override
+    public Color getColorValue() {
+        return Color.BLUE;
     }
 
     public Vehicle setDestiny(Coords destiny) {
@@ -38,6 +44,10 @@ public class Vehicle extends MapSquare{
         MapSquare ms = map.getMapSquare(ca);
         int newDir = -1;
         if (ms instanceof Crossroad){
+            if(map.getMyTrafficLight(c, currentDirection).isRed()){
+//                System.out.println("Cant go, light is red");
+                return;
+            }
             int diffX = destiny.getX()-c.getX();
             if(!(diffX > -3 && diffX < 3)){
                 if (diffX > 0){
@@ -65,7 +75,7 @@ public class Vehicle extends MapSquare{
                 }
             }
             ca = ((Crossroad) ms).getCoordsAfterCross(newDir);
-            System.out.println(ca + " after cross");
+//            System.out.println(ca + " after cross");
             ms = map.getMapSquare(ca);
         }
         if (ms instanceof Vehicle) {
@@ -76,19 +86,28 @@ public class Vehicle extends MapSquare{
             }
         }
         if (newDir != -1) {
-            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
+//            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
             this.currentDirection = newDir;
+        }
+        if (ms instanceof Destiny) {
+//            System.out.println("I arrived at my destiny");
+            map.changeMapSquare(new Road(), c);
+            return;
         }
         map.changeMapSquare(new Road(), c);
         map.changeMapSquare(this, ca);
-        System.out.println("I went from " + c + " to " + ca);
+//        System.out.println("I went from " + c + " to " + ca);
     }
 
     public static void reset() {
         vStep = new ArrayList<>();
     }
 
-    public static void addVehicleToSteped(Vehicle v){
+    public static void addVehicleToStepped(Vehicle v){
         vStep.add(v);
+    }
+
+    public int getCurrentDirection() {
+        return currentDirection;
     }
 }

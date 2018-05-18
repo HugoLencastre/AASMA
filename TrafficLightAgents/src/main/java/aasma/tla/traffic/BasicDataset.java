@@ -2,7 +2,7 @@ package aasma.tla.traffic;
 
 import java.util.Random;
 
-public class BasicDataset implements Dataset{
+public class BasicDataset extends Dataset{
 
     private final double NORTH_PROB = 0.5;
     private final double SOUTH_PROB = 0.2;
@@ -36,5 +36,10 @@ public class BasicDataset implements Dataset{
     public int getDestinyCardinalDirection() {
         int dir = getSpawnCardinalDirection() + 1;
         return dir==4?0:dir;
+    }
+
+    @Override
+    public double getProbToSpawnVehicle() {
+        return 0.5;
     }
 }

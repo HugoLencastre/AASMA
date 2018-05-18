@@ -1,5 +1,7 @@
 package aasma.tla.msquare;
 
+import java.awt.*;
+
 public class Destiny extends MapSquare {
 
     private Coords coords;
@@ -26,6 +28,11 @@ public class Destiny extends MapSquare {
     @Override
     public String getStringValue() {
         return "D";
+    }
+
+    @Override
+    public Color getColorValue() {
+        return Color.GRAY;
     }
 
     public Coords getCoords() {

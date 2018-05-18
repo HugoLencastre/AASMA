@@ -2,6 +2,8 @@ package aasma.tla.msquare;
 
 import aasma.tla.maps.Map;
 
+import java.awt.*;
+
 public class Spawn extends MapSquare{
 
     private int cardinalDirection;
@@ -9,6 +11,11 @@ public class Spawn extends MapSquare{
     @Override
     public String getStringValue() {
         return "S";
+    }
+
+    @Override
+    public Color getColorValue() {
+        return Color.DARK_GRAY;
     }
 
     /**
@@ -30,6 +37,7 @@ public class Spawn extends MapSquare{
         return cardinalDirection;
     }
 
+    //will not spawn if car already exists
     public void doStep(Map map, Coords c, Coords dest) {
         int x = c.getX();
         int y = c.getY();
@@ -37,8 +45,8 @@ public class Spawn extends MapSquare{
         if (map.getMapSquare(ca) instanceof Road) {
             Vehicle v = new Vehicle(map.getOppositeDirection(cardinalDirection)).setDestiny(dest);
             map.changeMapSquare(v, ca);
-            Vehicle.addVehicleToSteped(v);
-            System.out.println("Spawned vehicle in " + cardinalDirection);
+            Vehicle.addVehicleToStepped(v);
+//            System.out.println("Spawned vehicle in " + cardinalDirection);
         }
     }
 }
