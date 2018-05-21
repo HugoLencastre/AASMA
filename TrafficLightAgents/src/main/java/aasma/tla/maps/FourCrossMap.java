@@ -20,14 +20,6 @@ public class FourCrossMap extends Map{
         TrafficLight T5 = new TrafficLight();
         TrafficLight T6 = new TrafficLight();
         TrafficLight T7 = new TrafficLight();
-        TrafficLight T8 = new TrafficLight();
-        TrafficLight T9 = new TrafficLight();
-        TrafficLight T10 = new TrafficLight();
-        TrafficLight T11 = new TrafficLight();
-        TrafficLight T12 = new TrafficLight();
-        TrafficLight T13 = new TrafficLight();
-        TrafficLight T14 = new TrafficLight();
-        TrafficLight T15 = new TrafficLight();
         Spawn SN1 = new Spawn().setCardinalDirection(0);
         Spawn SS1 = new Spawn().setCardinalDirection(1);
         Spawn SN2 = new Spawn().setCardinalDirection(0);
@@ -54,10 +46,10 @@ public class FourCrossMap extends Map{
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T3, E,E, T2,W,W,W,W,T4, E,E, T5,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T1, E,E, T0,W,W,W,W,T3, E,E, T2,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList(DW1,E,E,E,E,E,C1,C1, E,E,E,E,E,E, C2,C2,E,E,E,E,E,SE1)),
                 new ArrayList<>(Arrays.asList(SW1,E,E,E,E,E,C1,C1, E,E,E,E,E,E, C2,C2,E,E,E,E,E,DE1)),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T0, E,E, T1,W,W,W,W,T6, E,E, T7,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T0, E,E, T1,W,W,W,W,T2, E,E, T3,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
@@ -68,10 +60,10 @@ public class FourCrossMap extends Map{
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T11, E,E, T10,W,W,W,W,T12, E,E, T13,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T5, E,E, T4,W,W,W,W,T7, E,E, T6,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList(DW2,E,E,E,E,E,C3,C3, E,E,E,E,E,E, C4,C4,E,E,E,E,E,SE2)),
                 new ArrayList<>(Arrays.asList(SW2,E,E,E,E,E,C3,C3, E,E,E,E,E,E, C4,C4,E,E,E,E,E,DE2)),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T8, E,E, T9,W,W,W,W,T14, E,E, T15,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T4, E,E, T5,W,W,W,W,T6, E,E, T7,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),

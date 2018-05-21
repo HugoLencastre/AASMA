@@ -2,6 +2,7 @@ package aasma.tla;
 
 import aasma.tla.graphics.MapSurface;
 import aasma.tla.maps.BasicMap;
+import aasma.tla.maps.FourCrossMap;
 import aasma.tla.maps.Map;
 import aasma.tla.maps.TwoCrossMap;
 import aasma.tla.traffic.BasicDataset;
@@ -11,19 +12,23 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class TrafficLightAgents  extends JFrame {
+public class TrafficLightAgents extends JFrame {
 
     public final static int SPOT_SIZE = 30;
-    public final static int DELAY = 300;
+    public final static int DELAY = 500;
+    public final static boolean SHOW_NR_OF_VEHICLES_NEAR_CROSS = true;
+    //this is not actually realistic, because it only works well in half of the directions
+    //things such as iteration would have to change for it to work correctly
+    // not currently working
+    public final static boolean REALISTIC_REACTIONS = false;
 
     public TrafficLightAgents() {
-
         initUI();
     }
 
     private void initUI() {
 
-        Map map = TwoCrossMap.getInstance().setTrafficDataset(new BasicDataset());
+        Map map = BasicMap.getInstance().setTrafficDataset(new BasicDataset());
         final MapSurface surface = new MapSurface(DELAY, map, false);
         add(surface);
 
@@ -36,7 +41,7 @@ public class TrafficLightAgents  extends JFrame {
         });
 
         setTitle("Traffic");
-        setSize((map.width+1)*SPOT_SIZE, (map.height+2)*SPOT_SIZE);
+        setSize((map.width + 1) * SPOT_SIZE, (map.height + 2) * SPOT_SIZE);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -48,12 +53,5 @@ public class TrafficLightAgents  extends JFrame {
             ex.setVisible(true);
         });
 
-//        //get number of crossing ahead chose one of them to turn
-//        Map map = BasicMap.getInstance();
-//        map.setTrafficDataset(new BasicDataset());
-//        for (int i = 0; i < 11; i++) {
-//            map.doMapStep(true);
-//            System.out.println();
-//        }
     }
 }

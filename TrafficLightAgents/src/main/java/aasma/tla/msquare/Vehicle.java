@@ -1,5 +1,6 @@
 package aasma.tla.msquare;
 
+import aasma.tla.TrafficLightAgents;
 import aasma.tla.maps.Map;
 
 import java.awt.*;
@@ -80,10 +81,15 @@ public class Vehicle extends MapSquare{
         }
         if (ms instanceof Vehicle) {
             ((Vehicle) ms).doStep(map, ca);
-            ms = map.getMapSquare(ca);
-            if (ms instanceof Vehicle) {
-                return;
-            }
+            return;
+//            ms = map.getMapSquare(ca);
+//            if (ms instanceof Vehicle) {
+//                return;
+//            }
+        }
+        if (TrafficLightAgents.REALISTIC_REACTIONS && ms instanceof Road && ((Road) ms).getVehicleHereRecently() != 0) {
+            ((Road) ms).tap();
+            return;
         }
         if (newDir != -1) {
 //            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
@@ -94,7 +100,22 @@ public class Vehicle extends MapSquare{
             map.changeMapSquare(new Road(), c);
             return;
         }
-        map.changeMapSquare(new Road(), c);
+        if (TrafficLightAgents.REALISTIC_REACTIONS) {
+            int nn=0;
+            switch (currentDirection) {
+                case 0:
+                case 2:
+                    nn=2;
+                    break;
+                case 1:
+                case 3:
+                    nn=0;
+                    break;
+            }
+            map.changeMapSquare(new Road(nn), c);
+        } else {
+            map.changeMapSquare(new Road(), c);
+        }
         map.changeMapSquare(this, ca);
 //        System.out.println("I went from " + c + " to " + ca);
     }

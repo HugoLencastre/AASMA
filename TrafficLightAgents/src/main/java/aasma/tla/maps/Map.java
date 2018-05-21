@@ -12,7 +12,7 @@ public abstract class Map {
 
     private ArrayList<ArrayList<MapSquare>> map;
     private Dataset traffic;
-    private ArrayList<TrafficLight> tls = new ArrayList<>();
+    private ArrayList<Crossroad> crs = new ArrayList<>();
     private HashMap<Integer, ArrayList<Spawn>> spawns = new HashMap<>();
     private HashMap<Integer, ArrayList<Destiny>> destinies = new HashMap<>();
     private Random r = new Random();
@@ -63,8 +63,8 @@ public abstract class Map {
             int ri = r.nextInt(destiniesInDir.size());
             destinyToVehicle = destiniesInDir.get(ri);
         }
-        for (TrafficLight tl : tls){
-            tl.doStep(this, stepNr);
+        for (Crossroad cr : crs){
+            cr.doStep(this, stepNr);
         }
         for (int y = 0; y < map.size(); y++) {
             ArrayList<MapSquare> line = map.get(y);
@@ -74,6 +74,8 @@ public abstract class Map {
                     ((Vehicle) ms).doStep(this, new Coords(x, y));
                 } else if (ms == spawnToSpawn) {
                     ((Spawn) ms).doStep(this, new Coords(x, y), destinyToVehicle.getCoords());
+                } else if (ms instanceof Road) {
+                    ((Road) ms).tap();
                 }
             }
         }
@@ -97,16 +99,13 @@ public abstract class Map {
         destinies.put(1, new ArrayList<>());
         destinies.put(2, new ArrayList<>());
         destinies.put(3, new ArrayList<>());
-        ArrayList<Crossroad> crossroads = new ArrayList<>();
         int x = 0;
         int y;
         for (y = 0; y < map.size(); y++) {
             ArrayList<MapSquare> line = map.get(y);
             for (x = 0; x < line.size(); x++) {
                 MapSquare ms = line.get(x);
-                if (ms instanceof TrafficLight) {
-                    tls.add(((TrafficLight) ms).setCoords(new Coords(x,y)));
-                } else if (ms instanceof Vehicle) {
+                if (ms instanceof Vehicle) {
                     System.out.println("Map should start with no vehicle");
                 } else if (ms instanceof Spawn) {
                     spawns.get(((Spawn) ms).getCardinalDirection()).add((Spawn) ms);
@@ -115,9 +114,9 @@ public abstract class Map {
                     d.setCoords(new Coords(x, y));
                     destinies.get(d.getCardinalDirection()).add(d);
                 } else if (ms instanceof Crossroad) {
-                    if (!crossroads.contains(ms)) {
-                        crossroads.add((Crossroad) ms);
-                        ((Crossroad) ms).setCoords(new Coords(x, y));
+                    if (!crs.contains(ms)) {
+                        crs.add((Crossroad) ms);
+                        ((Crossroad) ms).setCoordsTls(this, new Coords(x, y));
                     }
                 }
             }

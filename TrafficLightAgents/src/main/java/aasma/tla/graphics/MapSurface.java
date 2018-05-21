@@ -2,8 +2,7 @@ package aasma.tla.graphics;
 
 import aasma.tla.TrafficLightAgents;
 import aasma.tla.maps.Map;
-import aasma.tla.msquare.MapSquare;
-import aasma.tla.msquare.Vehicle;
+import aasma.tla.msquare.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +61,7 @@ public class MapSurface extends JPanel implements ActionListener {
         int tx = 0;
         int ty = 0;
         int sizeSq = size / 4;
+        ArrayList<Crossroad> crs = new ArrayList<>();
         for (ArrayList<MapSquare> line : map.getMap()) {
             for (MapSquare ms : line) {
                 g2d.setPaint(ms.getColorValue());
@@ -81,6 +81,14 @@ public class MapSurface extends JPanel implements ActionListener {
                         case 3:
                             g2d.fillRect(tx+size-sizeSq, ty+sizeSq, sizeSq, sizeSq*2);
                             break;
+                    }
+                } else if (ms instanceof Crossroad) {
+                    if (TrafficLightAgents.SHOW_NR_OF_VEHICLES_NEAR_CROSS && !crs.contains(ms)){
+                        crs.add((Crossroad) ms);
+                        Coords cds = ((Crossroad) ms).getCoords();
+                        g2d.setPaint(Color.BLACK);
+                        g2d.drawString(Integer.toString(((Crossroad) ms).getHDirNrV()), (cds.getX()-2)*size, (cds.getY())*size-size/2);
+                        g2d.drawString(Integer.toString(((Crossroad) ms).getVDirNrV()), (cds.getX()-1)*size, (cds.getY()-2)*size);
                     }
                 }
                 tx += size;

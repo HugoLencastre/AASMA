@@ -4,10 +4,11 @@ import java.util.Random;
 
 public class BasicDataset extends Dataset{
 
-    private final double NORTH_PROB = 0.5;
-    private final double SOUTH_PROB = 0.2;
-    private final double WEST_PROB = 0.2;
+    private final double NORTH_PROB = 0.0;
+    private final double SOUTH_PROB = 1.0;
+    private final double WEST_PROB = 0.1;
     private final double EAST_PROB = 0.1;
+    private final double spawnProb = 1.0;
     private final Random rand = new Random();
 
     /**
@@ -40,6 +41,6 @@ public class BasicDataset extends Dataset{
 
     @Override
     public double getProbToSpawnVehicle() {
-        return 0.5;
+        return spawnProb;
     }
 }

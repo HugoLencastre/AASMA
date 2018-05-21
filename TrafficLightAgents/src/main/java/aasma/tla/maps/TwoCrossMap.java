@@ -16,10 +16,6 @@ public class TwoCrossMap extends Map{
         TrafficLight T1 = new TrafficLight();
         TrafficLight T2 = new TrafficLight();
         TrafficLight T3 = new TrafficLight();
-        TrafficLight T4 = new TrafficLight();
-        TrafficLight T5 = new TrafficLight();
-        TrafficLight T6 = new TrafficLight();
-        TrafficLight T7 = new TrafficLight();
         Spawn SN1 = new Spawn().setCardinalDirection(0);
         Spawn SS1 = new Spawn().setCardinalDirection(1);
         Spawn SN2 = new Spawn().setCardinalDirection(0);
@@ -40,10 +36,10 @@ public class TwoCrossMap extends Map{
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T3, E,E, T2,W,W,W,W,T4, E,E, T5,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T1, E,E, T0,W,W,W,W,T2, E,E, T3,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList(DW1,E,E,E,E,E,C1,C1, E,E,E,E,E,E, C2,C2,E,E,E,E,E,SE1)),
                 new ArrayList<>(Arrays.asList(SW1,E,E,E,E,E,C1,C1, E,E,E,E,E,E, C2,C2,E,E,E,E,E,DE1)),
-                new ArrayList<>(Arrays.asList( W,W,W,W,W,T0, E,E, T1,W,W,W,W,T6, E,E, T7,W,W,W,W,W )),
+                new ArrayList<>(Arrays.asList( W,W,W,W,W,T0, E,E, T1,W,W,W,W,T3, E,E, T2,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,  E,E,  W,W,W,W,W,W )),

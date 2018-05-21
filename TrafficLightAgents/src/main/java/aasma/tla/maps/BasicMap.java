@@ -15,8 +15,6 @@ public class BasicMap extends Map{
         Wall W = new Wall();
         TrafficLight T0 = new TrafficLight();
         TrafficLight T1 = new TrafficLight();
-        TrafficLight T2 = new TrafficLight();
-        TrafficLight T3 = new TrafficLight();
         Spawn SN = new Spawn().setCardinalDirection(0);
         Spawn SS = new Spawn().setCardinalDirection(1);
         Spawn SW = new Spawn().setCardinalDirection(2);
@@ -32,7 +30,7 @@ public class BasicMap extends Map{
                 new ArrayList<>(Arrays.asList(W,W,W,W,W,W,E,E,W,W,W,W,W,W)),
                 new ArrayList<>(Arrays.asList(W,W,W,W,W,W,E,E,W,W,W,W,W,W)),
                 new ArrayList<>(Arrays.asList(W,W,W,W,W,W,E,E,W,W,W,W,W,W)),
-                new ArrayList<>(Arrays.asList(W,W,W,W,W,T3,E,E,T2,W,W,W,W,W)),
+                new ArrayList<>(Arrays.asList(W,W,W,W,W,T1,E,E,T0,W,W,W,W,W)),
                 new ArrayList<>(Arrays.asList(DW,E,E,E,E,E,C,C,E,E,E,E,E,SE)),
                 new ArrayList<>(Arrays.asList(SW,E,E,E,E,E,C,C,E,E,E,E,E,DE)),
                 new ArrayList<>(Arrays.asList(W,W,W,W,W,T0,E,E,T1,W,W,W,W,W)),
