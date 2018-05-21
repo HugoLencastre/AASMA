@@ -4,21 +4,20 @@ import java.awt.*;
 
 public class Road extends MapSquare {
 
-    private int vehicleHereRecently;
-
-    public Road() {
-        vehicleHereRecently = 0;
-    }
-
-    public Road(int vhr) {
-        vehicleHereRecently = vhr;
-    }
+    private boolean vehicleHereRecently = false;
 
     public void tap() {
-        if (vehicleHereRecently > 0) vehicleHereRecently -= 1;
+        if (vehicleHereRecently) {
+            vehicleHereRecently = false;
+        }
     }
 
-    public int getVehicleHereRecently() {
+    public Road setVHRTrue() {
+        this.vehicleHereRecently = true;
+        return this;
+    }
+
+    public boolean wasVehicleHereRecently() {
         return vehicleHereRecently;
     }
 

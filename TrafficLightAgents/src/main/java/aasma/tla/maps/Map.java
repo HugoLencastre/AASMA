@@ -1,17 +1,19 @@
 package aasma.tla.maps;
 
+import aasma.tla.agents.Agent;
+import aasma.tla.agents.BasicAgent;
 import aasma.tla.msquare.*;
 import aasma.tla.traffic.Dataset;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Vector;
 
 public abstract class Map {
 
     private ArrayList<ArrayList<MapSquare>> map;
     private Dataset traffic;
+    private Agent agent;
     private ArrayList<Crossroad> crs = new ArrayList<>();
     private HashMap<Integer, ArrayList<Spawn>> spawns = new HashMap<>();
     private HashMap<Integer, ArrayList<Destiny>> destinies = new HashMap<>();
@@ -116,7 +118,7 @@ public abstract class Map {
                 } else if (ms instanceof Crossroad) {
                     if (!crs.contains(ms)) {
                         crs.add((Crossroad) ms);
-                        ((Crossroad) ms).setCoordsTls(this, new Coords(x, y));
+                        ((Crossroad) ms).setData(this, new Coords(x, y));
                     }
                 }
             }
@@ -173,5 +175,14 @@ public abstract class Map {
         }
         System.out.println("getMyTrafficLight: This is not supposed to return null, something is wrong");
         return null;
+    }
+
+    public Map setAgent(Agent agent) {
+        this.agent = agent;
+        return this;
+    }
+
+    public Agent getAgent() {
+        return agent;
     }
 }

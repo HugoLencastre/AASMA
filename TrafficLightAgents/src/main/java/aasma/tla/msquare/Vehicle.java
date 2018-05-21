@@ -81,43 +81,32 @@ public class Vehicle extends MapSquare{
         }
         if (ms instanceof Vehicle) {
             ((Vehicle) ms).doStep(map, ca);
-            return;
-//            ms = map.getMapSquare(ca);
-//            if (ms instanceof Vehicle) {
-//                return;
-//            }
+            if (TrafficLightAgents.REALISTIC_REACTIONS) return;
+            ms = map.getMapSquare(ca);
+            if (ms instanceof Vehicle) {
+                return;
+            }
         }
-        if (TrafficLightAgents.REALISTIC_REACTIONS && ms instanceof Road && ((Road) ms).getVehicleHereRecently() != 0) {
+        if (TrafficLightAgents.REALISTIC_REACTIONS && ms instanceof Road && ((Road) ms).wasVehicleHereRecently()) {
             ((Road) ms).tap();
             return;
-        }
-        if (newDir != -1) {
-//            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
-            this.currentDirection = newDir;
         }
         if (ms instanceof Destiny) {
 //            System.out.println("I arrived at my destiny");
             map.changeMapSquare(new Road(), c);
             return;
         }
-        if (TrafficLightAgents.REALISTIC_REACTIONS) {
-            int nn=0;
-            switch (currentDirection) {
-                case 0:
-                case 2:
-                    nn=2;
-                    break;
-                case 1:
-                case 3:
-                    nn=0;
-                    break;
-            }
-            map.changeMapSquare(new Road(nn), c);
+        if (TrafficLightAgents.REALISTIC_REACTIONS && (currentDirection == 0 || currentDirection == 2)) {
+            map.changeMapSquare(new Road().setVHRTrue(), c);
         } else {
             map.changeMapSquare(new Road(), c);
         }
         map.changeMapSquare(this, ca);
 //        System.out.println("I went from " + c + " to " + ca);
+        if (newDir != -1) {
+//            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
+            this.currentDirection = newDir;
+        }
     }
 
     public static void reset() {

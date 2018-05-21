@@ -1,5 +1,6 @@
 package aasma.tla.msquare;
 
+import aasma.tla.agents.Agent;
 import aasma.tla.maps.Map;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class Crossroad extends MapSquare {
     int vDirNrV = 0;
     int hDirNrV = 0;
     boolean verticalIsGreen = false;
+    private Agent agent;
 
     @Override
     public String getStringValue() {
@@ -23,7 +25,7 @@ public class Crossroad extends MapSquare {
         return Color.yellow;
     }
 
-    public void setCoordsTls(Map map, Coords coords) {
+    public void setData(Map map, Coords coords) {
         this.coords = coords;
         int x = coords.getX();
         int y = coords.getY();
@@ -70,19 +72,8 @@ public class Crossroad extends MapSquare {
     }
 
     public void doStep(Map map, int stepNr) {
-        if (stepNr%15 == 0) {
-            toggle();
-        }
-        vDirNrV = getNrOfVehiclesInCross(map,true);
-        hDirNrV = getNrOfVehiclesInCross(map,false);
-//        System.out.println("Nr of vehicles in vertical direction: "+vDirNrV+" (max "+carsCountedInCross+")");
-//        System.out.println("Nr of vehicles in horizontal direction: "+hDirNrV+" (max "+carsCountedInCross+")");
-//        if (vDirNrV == 3 && !verticalIsGreen) {
-//            toggle();
-//            return;
-//        } else if (hDirNrV == 3 && verticalIsGreen){
-//            toggle();
-//        }
+        if (agent == null) this.agent = map.getAgent();
+        if (agent.doStep(this, map, stepNr)) toggle();
     }
 
     private void toggle() {
@@ -101,5 +92,9 @@ public class Crossroad extends MapSquare {
 
     public int getVDirNrV() {
         return vDirNrV;
+    }
+
+    public boolean isVerticalGreen() {
+        return verticalIsGreen;
     }
 }

@@ -1,5 +1,8 @@
 package aasma.tla;
 
+import aasma.tla.agents.Agent;
+import aasma.tla.agents.BasicAgent;
+import aasma.tla.agents.SmartAgent;
 import aasma.tla.graphics.MapSurface;
 import aasma.tla.maps.BasicMap;
 import aasma.tla.maps.FourCrossMap;
@@ -15,12 +18,9 @@ import java.awt.event.WindowEvent;
 public class TrafficLightAgents extends JFrame {
 
     public final static int SPOT_SIZE = 30;
-    public final static int DELAY = 500;
+    public final static int DELAY = 200;
     public final static boolean SHOW_NR_OF_VEHICLES_NEAR_CROSS = true;
-    //this is not actually realistic, because it only works well in half of the directions
-    //things such as iteration would have to change for it to work correctly
-    // not currently working
-    public final static boolean REALISTIC_REACTIONS = false;
+    public final static boolean REALISTIC_REACTIONS = true;
 
     public TrafficLightAgents() {
         initUI();
@@ -28,10 +28,9 @@ public class TrafficLightAgents extends JFrame {
 
     private void initUI() {
 
-        Map map = BasicMap.getInstance().setTrafficDataset(new BasicDataset());
+        Map map = FourCrossMap.getInstance().setTrafficDataset(new BasicDataset()).setAgent(new SmartAgent());
         final MapSurface surface = new MapSurface(DELAY, map, false);
         add(surface);
-
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
