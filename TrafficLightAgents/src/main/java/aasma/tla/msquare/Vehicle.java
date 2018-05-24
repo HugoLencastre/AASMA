@@ -96,6 +96,7 @@ public class Vehicle extends MapSquare{
             map.changeMapSquare(new Road(), c);
             return;
         }
+
         if (TrafficLightAgents.REALISTIC_REACTIONS && (currentDirection == 0 || currentDirection == 2)) {
             map.changeMapSquare(new Road().setVHRTrue(), c);
         } else {

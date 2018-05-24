@@ -87,8 +87,8 @@ public class MapSurface extends JPanel implements ActionListener {
                         crs.add((Crossroad) ms);
                         Coords cds = ((Crossroad) ms).getCoords();
                         g2d.setPaint(Color.BLACK);
-                        g2d.drawString(Integer.toString(((Crossroad) ms).getHDirNrV()), (cds.getX()-2)*size, (cds.getY())*size-size/2);
-                        g2d.drawString(Integer.toString(((Crossroad) ms).getVDirNrV()), (cds.getX()-1)*size, (cds.getY()-2)*size);
+                        g2d.drawString(Integer.toString(((Crossroad) ms).getHDirNrV(map)), (cds.getX()-2)*size, (cds.getY())*size-size/2);
+                        g2d.drawString(Integer.toString(((Crossroad) ms).getVDirNrV(map)), (cds.getX()-1)*size, (cds.getY()-2)*size);
                     }
                 }
                 tx += size;

@@ -11,9 +11,9 @@ public class SmartAgent extends Agent {
         int hDirNrV = cs.getNrOfVehiclesInCross(map,false);
 //        System.out.println("Nr of vehicles in vertical direction: "+vDirNrV+" (max "+carsCountedInCross+")");
 //        System.out.println("Nr of vehicles in horizontal direction: "+hDirNrV+" (max "+carsCountedInCross+")");
-        if (vDirNrV == 3 && !cs.isVerticalGreen()) {
+        if (vDirNrV >= 3 && !cs.isVerticalGreen()) {
             return true;
-        } else if (hDirNrV == 3 && cs.isVerticalGreen()){
+        } else if (hDirNrV >= 3 && cs.isVerticalGreen()){
             return true;
         }
         return false;

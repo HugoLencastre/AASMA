@@ -2,12 +2,10 @@ package aasma.tla;
 
 import aasma.tla.agents.Agent;
 import aasma.tla.agents.BasicAgent;
+import aasma.tla.agents.QLearningAgent;
 import aasma.tla.agents.SmartAgent;
 import aasma.tla.graphics.MapSurface;
-import aasma.tla.maps.BasicMap;
-import aasma.tla.maps.FourCrossMap;
-import aasma.tla.maps.Map;
-import aasma.tla.maps.TwoCrossMap;
+import aasma.tla.maps.*;
 import aasma.tla.traffic.BasicDataset;
 
 import javax.swing.*;
@@ -18,9 +16,14 @@ import java.awt.event.WindowEvent;
 public class TrafficLightAgents extends JFrame {
 
     public final static int SPOT_SIZE = 30;
-    public final static int DELAY = 200;
+    public final static int DELAY = 30;
     public final static boolean SHOW_NR_OF_VEHICLES_NEAR_CROSS = true;
-    public final static boolean REALISTIC_REACTIONS = true;
+    //has side effect of lower spawning capabilities
+    public final static boolean REALISTIC_REACTIONS = false;
+    //if the traffic lights have cooldowns and pity timers (slows agents step optionally, see line in doStep)
+    public final static boolean TLTIMER = true;
+    public final static int TL_MAX_TIMER = 200;
+    public final static int TL_MIN_TIMER = 10;
 
     public TrafficLightAgents() {
         initUI();
@@ -28,7 +31,7 @@ public class TrafficLightAgents extends JFrame {
 
     private void initUI() {
 
-        Map map = FourCrossMap.getInstance().setTrafficDataset(new BasicDataset()).setAgent(new SmartAgent());
+        Map map = BasicExtendedMap.getInstance().setTrafficDataset(new BasicDataset()).setAgent(new QLearningAgent());
         final MapSurface surface = new MapSurface(DELAY, map, false);
         add(surface);
         addWindowListener(new WindowAdapter() {

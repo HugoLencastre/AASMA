@@ -8,6 +8,7 @@ import java.awt.*;
 public class Spawn extends MapSquare{
 
     private int cardinalDirection;
+    static int x = 0;
 
     @Override
     public String getStringValue() {
@@ -39,12 +40,25 @@ public class Spawn extends MapSquare{
     }
 
     //will not spawn if car already exists
+    int timer = 20;
     public void doStep(Map map, Coords c, Coords dest) {
+//        if (x > timer && x <= timer*3) {
+//            x++;
+//            return;
+//        } else if (x > timer) {
+//            x = 0;
+//        }
+//        x++;
         int x = c.getX();
         int y = c.getY();
         Coords ca = map.getCoordsAhead(x, y, map.getOppositeDirection(cardinalDirection));
         MapSquare ms = map.getMapSquare(ca);
+        if (!TrafficLightAgents.REALISTIC_REACTIONS && ms instanceof Vehicle) {
+            ((Vehicle) ms).doStep(map, ca);
+            ms = map.getMapSquare(ca);
+        }
         if (ms instanceof Road) {
+            //prob can delete
             if (TrafficLightAgents.REALISTIC_REACTIONS && ((Road) ms).wasVehicleHereRecently()) {
                 ((Road) ms).tap();
                 return;
@@ -54,6 +68,5 @@ public class Spawn extends MapSquare{
             Vehicle.addVehicleToStepped(v);
 //            System.out.println("Spawned vehicle in " + cardinalDirection);
         }
-        // missing logistic for REALISTIC_REACTIONS = false and a car being after spawn in north and west
     }
 }
