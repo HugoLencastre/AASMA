@@ -12,9 +12,15 @@ public class Vehicle extends MapSquare{
     private static ArrayList<Vehicle> vStep = new ArrayList<>();
     private int currentDirection = -1;
     private Coords destiny;
+    private int step = 0;
+    private int waitStep = 0;
+    private static int idCount = 0;
+    private int id;
 
     public Vehicle(int currentDirection) {
         this.currentDirection = currentDirection;
+        id = idCount;
+        idCount++;
     }
 
     @Override
@@ -33,6 +39,7 @@ public class Vehicle extends MapSquare{
     }
 
     public void doStep(Map map, Coords c) {
+        step++;
         if (vStep.contains(this)) {
             return;
         }
@@ -47,6 +54,7 @@ public class Vehicle extends MapSquare{
         if (ms instanceof Crossroad){
             if(map.getMyTrafficLight(c, currentDirection).isRed()){
 //                System.out.println("Cant go, light is red");
+                waitStep++;
                 return;
             }
             int diffX = destiny.getX()-c.getX();
@@ -81,19 +89,26 @@ public class Vehicle extends MapSquare{
         }
         if (ms instanceof Vehicle) {
             ((Vehicle) ms).doStep(map, ca);
-            if (TrafficLightAgents.REALISTIC_REACTIONS) return;
+            if (TrafficLightAgents.REALISTIC_REACTIONS) {
+                waitStep++;
+                return;
+            }
             ms = map.getMapSquare(ca);
             if (ms instanceof Vehicle) {
+                waitStep++;
                 return;
             }
         }
         if (TrafficLightAgents.REALISTIC_REACTIONS && ms instanceof Road && ((Road) ms).wasVehicleHereRecently()) {
             ((Road) ms).tap();
+            waitStep++;
             return;
         }
         if (ms instanceof Destiny) {
 //            System.out.println("I arrived at my destiny");
             map.changeMapSquare(new Road(), c);
+//            System.out.println("im car with id: "+ id + " and was here for "+step+" steps and waited "+waitStep+" steps");
+            ((Destiny) ms).saveVehicleStats(this);
             return;
         }
 
@@ -120,5 +135,17 @@ public class Vehicle extends MapSquare{
 
     public int getCurrentDirection() {
         return currentDirection;
+    }
+
+    public int getStep() {
+        return step;
+    }
+
+    public int getWaitStep() {
+        return waitStep;
+    }
+
+    public int getId() {
+        return id;
     }
 }

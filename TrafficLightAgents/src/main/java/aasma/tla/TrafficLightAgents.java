@@ -6,23 +6,26 @@ import aasma.tla.agents.QLearningAgent;
 import aasma.tla.agents.SmartAgent;
 import aasma.tla.graphics.MapSurface;
 import aasma.tla.maps.*;
+import aasma.tla.msquare.Destiny;
 import aasma.tla.traffic.BasicDataset;
+import aasma.tla.traffic.RushHourDataset;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.ForkJoinPool;
 
 public class TrafficLightAgents extends JFrame {
 
     public final static int SPOT_SIZE = 30;
-    public final static int DELAY = 30;
+    public final static int DELAY = 100;
     public final static boolean SHOW_NR_OF_VEHICLES_NEAR_CROSS = true;
     //has side effect of lower spawning capabilities
-    public final static boolean REALISTIC_REACTIONS = false;
+    public final static boolean REALISTIC_REACTIONS = true;
     //if the traffic lights have cooldowns and pity timers (slows agents step optionally, see line in doStep)
     public final static boolean TLTIMER = true;
-    public final static int TL_MAX_TIMER = 200;
+    public final static int TL_MAX_TIMER = 50;
     public final static int TL_MIN_TIMER = 10;
 
     public TrafficLightAgents() {
@@ -31,7 +34,7 @@ public class TrafficLightAgents extends JFrame {
 
     private void initUI() {
 
-        Map map = BasicExtendedMap.getInstance().setTrafficDataset(new BasicDataset()).setAgent(new QLearningAgent());
+        Map map = BasicMap.getInstance().setTrafficDataset(new RushHourDataset()).setAgent(new SmartAgent());
         final MapSurface surface = new MapSurface(DELAY, map, false);
         add(surface);
         addWindowListener(new WindowAdapter() {
@@ -39,6 +42,9 @@ public class TrafficLightAgents extends JFrame {
             public void windowClosing(WindowEvent e) {
                 Timer timer = surface.getTimer();
                 timer.stop();
+                System.out.println("Total step number: " + MapSurface.getCount());
+                System.out.println("Average time in map: " + Destiny.getAverageTimeInMap());
+                System.out.println("Average wait time: " + Destiny.getAverageWaitTime());
             }
         });
 
@@ -54,6 +60,5 @@ public class TrafficLightAgents extends JFrame {
             TrafficLightAgents ex = new TrafficLightAgents();
             ex.setVisible(true);
         });
-
     }
 }

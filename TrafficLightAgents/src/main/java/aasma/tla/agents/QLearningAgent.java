@@ -52,6 +52,6 @@ public class QLearningAgent extends Agent {
     }
 
     private int getReward(int nrHV, int nrVV) {
-        return (maxNrOfCars-nrHV-nrVV);
+        return (maxNrOfCars-nrHV-nrVV)/maxNrOfCars;
     }
 }

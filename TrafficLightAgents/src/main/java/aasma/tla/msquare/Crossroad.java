@@ -90,7 +90,7 @@ public class Crossroad extends MapSquare {
         if (agent == null) this.agent = map.getAgent();
         if (TrafficLightAgents.TLTIMER) {
             int stepDiff = stepNr - lastToggle;
-            if (stepDiff <= minTime) return;
+            if (stepDiff < minTime) return;
             if (stepDiff > maxTime) {
                 toggle(stepNr);
                 return;
@@ -102,7 +102,7 @@ public class Crossroad extends MapSquare {
     }
 
     private void toggle(int stepNr) {
-        this.lastToggle = stepNr;
+//        this.lastToggle = stepNr;
         tl1.toggle();
         tl2.toggle();
         verticalIsGreen = !verticalIsGreen;

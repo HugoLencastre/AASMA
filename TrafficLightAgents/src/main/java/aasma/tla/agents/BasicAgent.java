@@ -7,7 +7,7 @@ public class BasicAgent extends Agent {
 
     @Override
     public boolean doStep(Crossroad cs, Map map, int stepNr) {
-        if (stepNr%15 == 0) {
+        if (stepNr%30 == 0) {
             return true;
         }
         return false;

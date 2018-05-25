@@ -17,7 +17,7 @@ public class MapSurface extends JPanel implements ActionListener {
     private final int size = TrafficLightAgents.SPOT_SIZE;
     private int mh;
     private int mw;
-    private int count = 0;
+    private static int count = 0;
     private boolean printMap;
 
     public MapSurface(int delay, Map map, boolean printMap) {
@@ -54,6 +54,9 @@ public class MapSurface extends JPanel implements ActionListener {
         g2d.setPaint(Color.black);
 
         drawMapSquares(g2d);
+
+        g2d.setPaint(Color.black);
+        g2d.drawString("Total steps: " + Integer.toString(count),30,30);
 //        drawGrid(g2d);
     }
 
@@ -122,5 +125,9 @@ public class MapSurface extends JPanel implements ActionListener {
         count++;
         map.doMapStep(printMap, count);
         repaint();
+    }
+
+    public static int getCount() {
+        return count;
     }
 }

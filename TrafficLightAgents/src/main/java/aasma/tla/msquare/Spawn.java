@@ -58,11 +58,6 @@ public class Spawn extends MapSquare{
             ms = map.getMapSquare(ca);
         }
         if (ms instanceof Road) {
-            //prob can delete
-            if (TrafficLightAgents.REALISTIC_REACTIONS && ((Road) ms).wasVehicleHereRecently()) {
-                ((Road) ms).tap();
-                return;
-            }
             Vehicle v = new Vehicle(map.getOppositeDirection(cardinalDirection)).setDestiny(dest);
             map.changeMapSquare(v, ca);
             Vehicle.addVehicleToStepped(v);
