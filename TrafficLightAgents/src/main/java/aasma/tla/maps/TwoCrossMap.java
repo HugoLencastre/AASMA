@@ -10,6 +10,7 @@ public class TwoCrossMap extends Map{
     private final static TwoCrossMap map_instance = new TwoCrossMap();
 
     private TwoCrossMap() {
+        squaresCountedInSquare = 5;
         Road E = new Road(); //E de estrada, R é para red e green
         Wall W = new Wall();
         TrafficLight T0 = new TrafficLight();

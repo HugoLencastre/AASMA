@@ -4,13 +4,13 @@ import aasma.tla.msquare.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 
 public class BasicMap extends Map{
 
     private final static BasicMap map_instance = new BasicMap();
 
     private BasicMap() {
+        this.squaresCountedInSquare = 5;
         Road E = new Road(); //E de estrada, R é para red e green
         Wall W = new Wall();
         TrafficLight T0 = new TrafficLight();

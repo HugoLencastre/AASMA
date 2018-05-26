@@ -5,18 +5,21 @@ import aasma.tla.agents.Agent;
 import aasma.tla.maps.Map;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Crossroad extends MapSquare {
 
     private Coords coords;
     private TrafficLight tl1, tl2;
-    private final int squaresCountedInCross = 3;
+//    private final int squaresCountedInCross = 10;
     private boolean verticalIsGreen = false;
     private Agent agent;
 
     private int maxTime = TrafficLightAgents.TL_MAX_TIMER;
     private int minTime = TrafficLightAgents.TL_MIN_TIMER;
     private int lastToggle = 0;
+
+    private int nrVeciclesPassed = 0;
 
     @Override
     public String getStringValue() {
@@ -56,8 +59,9 @@ public class Crossroad extends MapSquare {
         Coords cs = getCoordsAfterCross(1);
         Coords cw = getCoordsAfterCross(2);
         Coords ce = getCoordsAfterCross(3);
+        int squaresCountedInCross = map.squaresCountedInSquare;
         if (verticalDir) {
-            for (int x = 0; x < this.squaresCountedInCross; x++) {
+            for (int x = 0; x < squaresCountedInCross; x++) {
 //                if (map.getMapSquare(cn.getX()-1,cn.getY()-x) instanceof Vehicle ||
 //                        map.getMapSquare(cs.getX()+1,cs.getY()+x) instanceof Vehicle){
 //                    nrCars++;
@@ -68,9 +72,12 @@ public class Crossroad extends MapSquare {
                 if (map.getMapSquare(cs.getX()+1,cs.getY()+x) instanceof Vehicle){
                     nrCars++;
                 }
+                if (nrCars > 9){
+                    return 9;
+                }
             }
         } else {
-            for (int x = 0; x < this.squaresCountedInCross; x++) {
+            for (int x = 0; x < squaresCountedInCross; x++) {
 //                if (map.getMapSquare(cw.getX()-x,cw.getY()+1) instanceof Vehicle ||
 //                        map.getMapSquare(ce.getX()+x,ce.getY()-1) instanceof Vehicle){
 //                    nrCars++;
@@ -80,6 +87,9 @@ public class Crossroad extends MapSquare {
                 }
                 if (map.getMapSquare(ce.getX()+x,ce.getY()-1) instanceof Vehicle){
                     nrCars++;
+                }
+                if (nrCars > 9){
+                    return 9;
                 }
             }
         }
@@ -92,16 +102,21 @@ public class Crossroad extends MapSquare {
             int stepDiff = stepNr - lastToggle;
             if (stepDiff < minTime) return;
             if (stepDiff > maxTime) {
-                toggle(stepNr);
+                toggle();
                 return;
             }
         }
         //this is here to slow down step
         this.lastToggle = stepNr;
-        if (agent.doStep(this, map, stepNr)) toggle(stepNr);
+        boolean changeToVerticalGreen = agent.doStep(this, map, stepNr);
+        if (changeToVerticalGreen && !verticalIsGreen) {
+            toggle();
+        } else if (!changeToVerticalGreen && verticalIsGreen) {
+            toggle();
+        }
     }
 
-    private void toggle(int stepNr) {
+    private void toggle() {
 //        this.lastToggle = stepNr;
         tl1.toggle();
         tl2.toggle();
@@ -122,5 +137,56 @@ public class Crossroad extends MapSquare {
 
     public boolean isVerticalGreen() {
         return verticalIsGreen;
+    }
+
+    int vn = 0;
+    int vs = 0;
+    int vw = 0;
+    int ve = 0;
+    public void addPassedVehicle(int dir) {
+        nrVeciclesPassed++;
+        switch (dir) {
+            case 0:
+                vn++;
+                break;
+            case 1:
+                vs++;
+                break;
+            case 2:
+                vw++;
+                break;
+            case 3:
+                ve++;
+                break;
+
+        }
+    }
+
+    public int getNrVehiclesPassedAndReset() {
+        int x = nrVeciclesPassed;
+        nrVeciclesPassed = 0;
+        return x;
+    }
+
+    private int dirMostPasses = 0;
+    public void saveDirWithMostPassesAndReset() {
+       int dirMostPasses = vn>vs?(vn>vw?(vn>ve?0:3):(vw>ve?2:3)):(vs>vw?(vs>ve?1:3):(vw>ve?2:3));
+       vn = 0;
+       vs = 0;
+       vw = 0;
+       ve = 0;
+    }
+
+    public int getDirMostPasses() {
+        return dirMostPasses;
+    }
+
+    private ArrayList<Crossroad> csNearList = new ArrayList<>();
+    public void addNearCross (Crossroad cs) {
+        csNearList.add(cs);
+    }
+
+    public ArrayList<Crossroad> getCsNearList() {
+        return csNearList;
     }
 }

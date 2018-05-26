@@ -4,19 +4,22 @@ import aasma.tla.maps.Map;
 import aasma.tla.msquare.Crossroad;
 import com.github.chen0040.rl.learning.qlearn.QAgent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 // epsilon greedy action selection
-public class QLearningAgent extends Agent {
+public class QLearningFourAgents extends Agent {
     private final static HashMap<Crossroad,QAgent> agentMap = new HashMap<>();
     private final static HashMap<Crossroad,Integer> lastActionMap = new HashMap<>();
     //TODO this is hardcoded, need to change
-    int stateCount = 100;
+    int stateCount = 1600;
     int actionCount = 2;
+    // this max is equal in 5 or 9 squares counted
     int maxNrOfCars = 18;
 
     @Override
     public boolean doStep(Crossroad cs, Map map, int stepNr) {
+        cs.saveDirWithMostPassesAndReset();
         QAgent a;
         int nrHV = cs.getHDirNrV(map);
         int nrVV = cs.getVDirNrV(map);
@@ -46,12 +49,13 @@ public class QLearningAgent extends Agent {
 //        System.out.println("The state is " + newStateId);
 //        System.out.println("Agent does action-"+actionId);
 
-        return actionId==0?false:true;
+        return actionId != 0;
     }
 
     private int getState(Crossroad cs, int nrHV, int nrVV) {
 //        return (nrHV+1)+(nrVV+1)*10+(cs.isVerticalGreen()?1:2)*100;
-        return (nrHV)+(nrVV)*10;
+        ArrayList<Crossroad> csNearList = cs.getCsNearList();
+        return (nrHV)+(nrVV)*10+csNearList.get(0).getDirMostPasses()*100+csNearList.get(1).getDirMostPasses()*1000;
     }
 
     private int getReward(Crossroad cs, Map map, int nrHV, int nrVV) {

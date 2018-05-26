@@ -20,6 +20,9 @@ public class MapSurface extends JPanel implements ActionListener {
     private static int count = 0;
     private boolean printMap;
 
+    private double atm = 0;
+    private double awt = 0;
+
     public MapSurface(int delay, Map map, boolean printMap) {
         initTimer(delay);
         this.map = map;
@@ -56,7 +59,14 @@ public class MapSurface extends JPanel implements ActionListener {
         drawMapSquares(g2d);
 
         g2d.setPaint(Color.black);
-        g2d.drawString("Total steps: " + Integer.toString(count),30,30);
+        g2d.drawString("Total steps: " + Integer.toString(count),10,30);
+        if (atm == 0 || count%100==0) {
+            atm = Destiny.getATMLastVehicles();
+            awt = Destiny.getAWTLastVehicles();
+        }
+        g2d.drawString("Average Time in Map (last 20 vehicles): " + atm,15,50);
+        g2d.drawString("Average Wait Time (last 20 vehicles): " + awt,15,70);
+
 //        drawGrid(g2d);
     }
 
@@ -125,9 +135,19 @@ public class MapSurface extends JPanel implements ActionListener {
         count++;
         map.doMapStep(printMap, count);
         repaint();
+        if (count == 5000000) {
+            printInfo();
+            System.exit(0);
+        }
     }
 
     public static int getCount() {
         return count;
+    }
+
+    public static void printInfo() {
+        System.out.println("Total step number: " + MapSurface.getCount());
+        System.out.println("Average time in map: " + Destiny.getAverageTimeInMap());
+        System.out.println("Average wait time: " + Destiny.getAverageWaitTime());
     }
 }

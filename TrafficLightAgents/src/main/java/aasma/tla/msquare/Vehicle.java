@@ -50,6 +50,7 @@ public class Vehicle extends MapSquare{
         }
         Coords ca = map.getCoordsAhead(c, currentDirection);
         MapSquare ms = map.getMapSquare(ca);
+        Crossroad cross = null;
         int newDir = -1;
         if (ms instanceof Crossroad){
             if(map.getMyTrafficLight(c, currentDirection).isRed()){
@@ -83,6 +84,7 @@ public class Vehicle extends MapSquare{
                     }
                 }
             }
+            cross = (Crossroad) ms;
             ca = ((Crossroad) ms).getCoordsAfterCross(newDir);
 //            System.out.println(ca + " after cross");
             ms = map.getMapSquare(ca);
@@ -122,6 +124,7 @@ public class Vehicle extends MapSquare{
         if (newDir != -1) {
 //            System.out.println("I was going " + currentDirection + " i turned to " + newDir);
             this.currentDirection = newDir;
+            cross.addPassedVehicle(newDir);
         }
     }
 

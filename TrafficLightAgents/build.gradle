@@ -11,4 +11,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile "com.github.chen0040:java-reinforcement-learning:1.0.5"
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
 }

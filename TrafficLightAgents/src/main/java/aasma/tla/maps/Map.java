@@ -1,7 +1,6 @@
 package aasma.tla.maps;
 
 import aasma.tla.agents.Agent;
-import aasma.tla.agents.BasicAgent;
 import aasma.tla.msquare.*;
 import aasma.tla.traffic.Dataset;
 
@@ -20,6 +19,7 @@ public abstract class Map {
     private Random r = new Random();
     public int width;
     public int height;
+    public int squaresCountedInSquare = 9;
 
     private double spawnProb;
 
@@ -82,7 +82,7 @@ public abstract class Map {
             }
         }
         Vehicle.reset();
-        if (verbose) {
+        if (verbose && stepNr%50000 == 0) {
             printMap();
         }
     }

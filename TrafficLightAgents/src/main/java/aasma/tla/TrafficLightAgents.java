@@ -1,25 +1,20 @@
 package aasma.tla;
 
-import aasma.tla.agents.Agent;
-import aasma.tla.agents.BasicAgent;
-import aasma.tla.agents.QLearningAgent;
-import aasma.tla.agents.SmartAgent;
+import aasma.tla.agents.ChangerAgent;
 import aasma.tla.graphics.MapSurface;
-import aasma.tla.maps.*;
-import aasma.tla.msquare.Destiny;
-import aasma.tla.traffic.BasicDataset;
+import aasma.tla.maps.FourExtendedMap;
+import aasma.tla.maps.Map;
 import aasma.tla.traffic.RushHourDataset;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.concurrent.ForkJoinPool;
 
 public class TrafficLightAgents extends JFrame {
 
     public final static int SPOT_SIZE = 30;
-    public final static int DELAY = 100;
+    public final static int DELAY = 0;
     public final static boolean SHOW_NR_OF_VEHICLES_NEAR_CROSS = true;
     //has side effect of lower spawning capabilities
     public final static boolean REALISTIC_REACTIONS = true;
@@ -34,7 +29,7 @@ public class TrafficLightAgents extends JFrame {
 
     private void initUI() {
 
-        Map map = BasicMap.getInstance().setTrafficDataset(new RushHourDataset()).setAgent(new SmartAgent());
+        Map map = FourExtendedMap.getInstance().setTrafficDataset(new RushHourDataset()).setAgent(new ChangerAgent());
         final MapSurface surface = new MapSurface(DELAY, map, false);
         add(surface);
         addWindowListener(new WindowAdapter() {
@@ -42,9 +37,7 @@ public class TrafficLightAgents extends JFrame {
             public void windowClosing(WindowEvent e) {
                 Timer timer = surface.getTimer();
                 timer.stop();
-                System.out.println("Total step number: " + MapSurface.getCount());
-                System.out.println("Average time in map: " + Destiny.getAverageTimeInMap());
-                System.out.println("Average wait time: " + Destiny.getAverageWaitTime());
+                MapSurface.printInfo();
             }
         });
 

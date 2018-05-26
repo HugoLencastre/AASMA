@@ -40,6 +40,14 @@ public class FourExtendedMap extends Map{
         Crossroad C2 = new Crossroad();
         Crossroad C3 = new Crossroad();
         Crossroad C4 = new Crossroad();
+        C1.addNearCross(C2);
+        C1.addNearCross(C3);
+        C2.addNearCross(C1);
+        C2.addNearCross(C4);
+        C3.addNearCross(C1);
+        C3.addNearCross(C4);
+        C4.addNearCross(C2);
+        C4.addNearCross(C3);
         this.setMap(new ArrayList<>(Arrays.asList(
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,W,W,W,W,SN1,DN1,W,W,W,W,W,W,W,W,W,SN2,DN2,W,W,W,W,W,W,W,W,W,W )),                new ArrayList<>(Arrays.asList( W,W,W,W,W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,W,W,W,W )),
                 new ArrayList<>(Arrays.asList( W,W,W,W,W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,W,W,W,  E,E,  W,W,W,W,W,W,W,W,W,W )),
